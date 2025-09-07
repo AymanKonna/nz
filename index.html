@@ -4,80 +4,211 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Your Guide to Universities in New Zealand</title>
-    <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script> <!-- Added Tailwind CSS CDN -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
-    <!-- Chosen Palette: Warm Neutrals (Dark Mode) -->
-    <!-- Application Structure Plan: The application is structured as a single-page, scrollable guide with a sticky top navigation bar. This design breaks the comprehensive report into distinct, manageable sections. Users can either scroll sequentially or use the navigation to jump directly to a topic of interest. This non-linear access is crucial for reducing overwhelm, allowing a user to focus on their immediate questions without needing to process all information at once. The 'Options' section has been redesigned from a general university overview to a master-details view for specific 'Business' programs, directly addressing the user's latest mission. -->
-    <!-- Visualization & Content Choices: 
-        - Section 1 (Basics): Report Info -> Academic Calendar. Goal -> Inform. Method -> Interactive Timeline (HTML/CSS). Interaction -> Hover to highlight key periods. Justification -> More intuitive than text for understanding seasonal timings.
-        - Section 2 (Options): Report Info -> University Business Programs. Goal -> Compare & Organize. Method -> Clickable cards with a dynamic details view. Interaction -> Clicking a card shows detailed program info. Justification -> Translates complex program data into an intuitive master-details navigation, allowing for easy comparison and synthesis of information.
-        - Section 3 (Process): Report Info -> Application Steps. Goal -> Organize. Method -> Clickable Step-by-Step Diagram (HTML/CSS/JS). Interaction -> Clicking a step reveals its details. Justification -> Simplifies a complex process into a clear, manageable workflow, reducing anxiety.
-        - Section 4 (Life in NZ): Report Info -> Student expenses & life. Goal -> Inform. Method -> Donut Chart (Chart.js) & descriptive text. Interaction -> Tooltips on hover show budget details. Justification -> Provides a quick visual summary of the cost of living and combines related concepts for a unified section.
-    -->
-    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: #0b0c10;
-            color: #e0e7ff;
-            line-height: 1.6;
+        /* Custom CSS variables from general-theme.md */
+        :root {
+            --background: #0e0c17;
+            --foreground: hsl(210, 10%, 97%);
+            --surface: #1a1727;
+            --card: rgba(26, 23, 39, 0.6);
+            --card-foreground: hsl(210, 10%, 97%);
+            --popover: #1a1727;
+            --popover-foreground: hsl(210, 10%, 97%);
+            --primary: #fcae67;
+            --primary-foreground: #0e0c17;
+            --secondary: #252241;
+            --secondary-foreground: hsl(210, 10%, 97%);
+            --muted: #1a1727;
+            --muted-foreground: hsl(215, 15%, 75%);
+            --accent: #e879f9;
+            --accent-foreground: #0e0c17;
+            --highlight: #facc15;
+            --destructive: hsl(0, 63%, 31%);
+            --destructive-foreground: hsl(210, 10%, 97%);
+            --border: rgba(255, 255, 255, 0.15);
+            --input: #252241;
+            --ring: #c084fc;
+            --radius: 12px;
+            --font-sans: 'Inter', system-ui, sans-serif;
+            
+            /* Neutral colors */
+            --neutral-100: #f8fafc;
+            --neutral-200: #e2e8f0;
+            --neutral-300: #cbd5e1;
+            --neutral-400: #94a3b8;
+            --neutral-500: #64748b;
+            --neutral-600: #475569;
+            --neutral-700: #334155;
+            --neutral-800: #1e293b;
+            --neutral-900: #0f172a;
+            
+            /* Custom colors */
+            --lavender: #b794f4;
+            --grape: #7c3aed;
+            --softpink: #f9a8d4;
+            --softblue: #93c5fd;
+
+            /* RGB values for Chart.js */
+            --highlight-rgb: 250, 204, 21;
+            --primary-rgb: 252, 174, 103;
+            --accent-rgb: 232, 121, 249;
+            --softblue-rgb: 147, 197, 253;
+            --neutral-500-rgb: 100, 116, 139;
         }
-        .text-golden-gradient {
-            background: linear-gradient(90deg, #FFD700, #FFA500);
-            -webkit-background-clip: text;
-            background-clip: text;
-            -webkit-text-fill-color: transparent;
+
+        /* Tailwind base and custom components */
+        @layer base {
+            * {
+                border-color: var(--border);
+            }
+
+            body {
+                font-family: var(--font-sans);
+                -webkit-font-smoothing: antialiased;
+                -moz-osx-font-smoothing: grayscale;
+                background: radial-gradient(ellipse at top, var(--surface), var(--background));
+                color: var(--foreground);
+                min-height: 100vh;
+            }
+
+            /* Scrollbar styles */
+            ::-webkit-scrollbar {
+                width: 8px;
+                height: 8px;
+            }
+            ::-webkit-scrollbar-track {
+                background: var(--secondary);
+                border-radius: 10px;
+            }
+            ::-webkit-scrollbar-thumb {
+                background: var(--primary);
+                border-radius: 10px;
+            }
+            ::-webkit-scrollbar-thumb:hover {
+                background: var(--highlight);
+            }
         }
-        .bg-golden-gradient {
-            background: linear-gradient(45deg, #FFD700, #FFA500);
-            color: transparent;
-            -webkit-background-clip: text;
-            background-clip: text;
-            font-weight: bold;
-        }
-        .text-highlight-gradient {
-            background: linear-gradient(45deg, #F48CCA, #D48A6C);
-            -webkit-background-clip: text;
-            background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-        .page-content {
-            display: none;
-            animation: fadeIn 0.8s ease-in-out;
-        }
-        .page-content.active {
-            display: block;
-        }
-        .animated-text {
-            opacity: 0;
-            transform: translateY(20px);
-            animation: slideIn 0.8s forwards;
-        }
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-        @keyframes slideIn {
-            to { opacity: 1; transform: translateY(0); }
-        }
-        .nav-button {
-            transition: transform 0.2s ease-in-out;
-        }
-        .nav-button:hover {
-            transform: scale(1.05);
-        }
-        .active-nav-button {
-            background: linear-gradient(45deg, #FFD700, #FFA500);
-            color: #1f2937 !important;
-            padding: 8px 16px;
-            border-radius: 9999px;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-        }
-        .chart-container {
+
+        @layer components {
+            .glass-card {
+                background: linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.02) 100%);
+                backdrop-filter: blur(10px);
+                border: 1px solid rgba(255, 255, 255, 0.1);
+                position: relative;
+            }
+
+            .glass-card::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background: linear-gradient(135deg, rgba(174, 126, 246, 0.03) 0%, rgba(247, 142, 189, 0.02) 50%, rgba(255, 172, 118, 0.01) 100%);
+                border-radius: inherit;
+                pointer-events: none;
+            }
+
+            .hover-card {
+                transition: all 0.3s ease;
+            }
+
+            .hover-card:hover {
+                transform: translateY(-4px);
+                box-shadow: 0 20px 25px -5px rgba(174, 126, 246, 0.2), 0 10px 10px -5px rgba(174, 126, 246, 0.1);
+            }
+
+            .gradient-text {
+                background: linear-gradient(142deg, rgba(174, 126, 246, 1) 0%, rgba(247, 142, 189, 1) 37%, rgba(255, 172, 118, 1) 66%, rgba(247, 224, 89, 1) 100%);
+                -webkit-background-clip: text;
+                background-clip: text;
+                -webkit-text-fill-color: transparent;
+            }
+
+            .btn-gradient {
+                background: linear-gradient(142deg, rgba(174, 126, 246, 1) 0%, rgba(247, 142, 189, 1) 37%, rgba(255, 172, 118, 1) 66%, rgba(247, 224, 89, 1) 100%);
+                transition: all 0.3s ease;
+            }
+
+            .btn-gradient:hover {
+                transform: scale(1.05);
+                box-shadow: 0 10px 25px rgba(174, 126, 246, 0.4);
+            }
+
+            .particles {
+                position: absolute;
+                width: 100%;
+                height: 100%;
+                background-image: 
+                    radial-gradient(circle at 20% 50%, rgba(174, 126, 246, 0.1) 1px, transparent 1px),
+                    radial-gradient(circle at 80% 50%, rgba(247, 142, 189, 0.1) 1px, transparent 1px),
+                    radial-gradient(circle at 40% 80%, rgba(255, 172, 118, 0.08) 1px, transparent 1px);
+                background-size: 100px 100px, 80px 80px, 120px 120px;
+                animation: float 20s ease-in-out infinite;
+            }
+
+            @keyframes float {
+                0%, 100% { 
+                    transform: translateY(0px) rotate(0deg); 
+                }
+                50% { 
+                    transform: translateY(-20px) rotate(180deg); 
+                }
+            }
+
+            .line-clamp-2 {
+                display: -webkit-box;
+                -webkit-line-clamp: 2;
+                -webkit-box-orient: vertical;
+                overflow: hidden;
+            }
+
+            /* New gradients for nz-page.html.md */
+            .text-golden-gradient-custom {
+                background: linear-gradient(90deg, var(--highlight), var(--primary));
+                -webkit-background-clip: text;
+                background-clip: text;
+                -webkit-text-fill-color: transparent;
+            }
+
+            .bg-golden-gradient-custom {
+                background: linear-gradient(45deg, var(--highlight), var(--primary));
+                -webkit-background-clip: text;
+                background-clip: text;
+                -webkit-text-fill-color: transparent;
+                font-weight: bold;
+            }
+
+            .text-highlight-gradient-custom {
+                background: linear-gradient(45deg, var(--accent), var(--primary));
+                -webkit-background-clip: text;
+                background-clip: text;
+                -webkit-text-fill-color: transparent;
+            }
+
+            /* Loading indicator */
+            #loading-indicator {
+                display: none;
+                border: 4px solid var(--secondary);
+                border-top: 4px solid var(--primary);
+                border-radius: 50%;
+                width: 40px;
+                height: 40px;
+                animation: spin 1s linear infinite;
+            }
+            @keyframes spin {
+                0% { transform: rotate(0deg); }
+                100% { transform: rotate(360deg); }
+            }
+
+            /* Custom classes for nz-page.html.md */
+            .chart-container {
             position: relative;
             width: 100%;
             max-width: 700px;
@@ -91,55 +222,68 @@
                 height: 400px;
             }
         }
-        ::-webkit-scrollbar {
-            width: 8px;
-            height: 8px;
-        }
-        ::-webkit-scrollbar-track {
-            background: #1f2937;
-            border-radius: 10px;
-        }
-        ::-webkit-scrollbar-thumb {
-            background: #FFA500;
-            border-radius: 10px;
-        }
-        ::-webkit-scrollbar-thumb:hover {
-            background: #FFD700;
-        }
-        #loading-indicator {
-            display: none;
-            border: 4px solid #1f2937;
-            border-top: 4px solid #FFA500;
-            border-radius: 50%;
-            width: 40px;
-            height: 40px;
-            animation: spin 1s linear infinite;
-        }
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+
+            .animated-text {
+                opacity: 0;
+                transform: translateY(20px);
+                animation: fadeInSlideUp 0.8s ease-out forwards;
+            }
+
+            @keyframes fadeInSlideUp {
+                from {
+                    opacity: 0;
+                    transform: translateY(20px);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
+
+            .nav-button {
+                transition: color 0.3s ease, background-color 0.3s ease;
+            }
+
+            .nav-button:hover {
+                color: var(--foreground);
+                background-color: var(--secondary);
+            }
+
+            .active-nav-button {
+                color: var(--primary);
+                background-color: var(--secondary);
+            }
+
+            .page-content {
+                opacity: 0;
+                transition: opacity 0.5s ease-in-out;
+            }
+
+            .page-content.active {
+                opacity: 1;
+            }
         }
     </style>
 </head>
-<body class="antialiased">
+<body class="antialiased bg-background text-foreground">
 
-    <header class="bg-[#1f2937]/80 backdrop-blur-md shadow-sm sticky top-0 z-50">
+    <header class="bg-secondary/80 backdrop-blur-md shadow-sm sticky top-0 z-50">
         <nav class="container mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex items-center justify-between h-16">
                 <div class="flex-shrink-0">
-                    <a href="#intro" class="text-xl font-bold text-golden-gradient">Start</a>
+                    <a href="#intro" class="text-xl font-bold text-golden-gradient-custom">Start</a>
                 </div>
                 <div class="hidden md:block">
                     <div id="nav-links" class="ml-10 flex items-baseline space-x-4">
-                        <a href="#system" class="nav-button px-3 py-2 rounded-md text-sm font-medium text-gray-400">Basics</a>
-                        <a href="#universities" class="nav-button px-3 py-2 rounded-md text-sm font-medium text-gray-400">Options</a>
-                        <a href="#admissions" class="nav-button px-3 py-2 rounded-md text-sm font-medium text-gray-400">Process</a>
-                        <a href="#life-in-nz" class="nav-button px-3 py-2 rounded-md text-sm font-medium text-gray-400">Life in NZ</a>
-                        <a href="#comparison" class="nav-button px-3 py-2 rounded-md text-sm font-medium text-gray-400">Compare</a>
+                        <a href="#system" class="nav-button px-3 py-2 rounded-md text-sm font-medium text-muted-foreground">Basics</a>
+                        <a href="#universities" class="nav-button px-3 py-2 rounded-md text-sm font-medium text-muted-foreground">Options</a>
+                        <a href="#admissions" class="nav-button px-3 py-2 rounded-md text-sm font-medium text-muted-foreground">Process</a>
+                        <a href="#life-in-nz" class="nav-button px-3 py-2 rounded-md text-sm font-medium text-muted-foreground">Life in NZ</a>
+                        <a href="#comparison" class="nav-button px-3 py-2 rounded-md text-sm font-medium text-muted-foreground">Compare</a>
                     </div>
                 </div>
                 <div class="md:hidden">
-                    <button id="mobile-menu-button" class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-amber-500">
+                    <button id="mobile-menu-button" class="inline-flex items-center justify-center p-2 rounded-md text-muted-foreground hover:text-foreground hover:bg-secondary focus:outline-none focus:ring-2 focus:ring-inset focus:ring-primary">
                         <span class="sr-only">Open main menu</span>
                         <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
@@ -149,127 +293,127 @@
             </div>
             <div id="mobile-menu" class="md:hidden hidden">
                 <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-                    <a href="#system" class="block nav-button px-3 py-2 rounded-md text-base font-medium text-gray-400">Basics</a>
-                    <a href="#universities" class="block nav-button px-3 py-2 rounded-md text-base font-medium text-gray-400">Options</a>
-                    <a href="#admissions" class="block nav-button px-3 py-2 rounded-md text-base font-medium text-gray-400">Process</a>
-                    <a href="#life-in-nz" class="block nav-button px-3 py-2 rounded-md text-base font-medium text-gray-400">Life in NZ</a>
-                    <a href="#comparison" class="block nav-button px-3 py-2 rounded-md text-base font-medium text-gray-400">Compare</a>
+                    <a href="#system" class="block nav-button px-3 py-2 rounded-md text-base font-medium text-muted-foreground">Basics</a>
+                    <a href="#universities" class="block nav-button px-3 py-2 rounded-md text-base font-medium text-muted-foreground">Options</a>
+                    <a href="#admissions" class="block nav-button px-3 py-2 rounded-md text-base font-medium text-muted-foreground">Process</a>
+                    <a href="#life-in-nz" class="block nav-button px-3 py-2 rounded-md text-base font-medium text-muted-foreground">Life in NZ</a>
+                    <a href="#comparison" class="block nav-button px-3 py-2 rounded-md text-base font-medium text-muted-foreground">Compare</a>
                 </div>
             </div>
         </nav>
     </header>
 
     <main class="container mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12">
-        <div id="loading-container" class="flex flex-col items-center justify-center text-gray-400 min-h-[300px]">
+        <div id="loading-container" class="flex flex-col items-center justify-center text-muted-foreground min-h-[300px]">
             <div id="loading-indicator" class="mb-4"></div>
             <p class="text-xl">Loading content...</p>
         </div>
 
         <div id="app-content" class="page-content space-y-20">
             <section id="intro" class="text-center mb-16 animated-text">
-                <h2 class="text-4xl font-bold text-golden-gradient tracking-tight sm:text-5xl">Your Journey to a New Zealand University Starts Here</h2>
-                <p class="mt-6 text-lg max-w-3xl mx-auto text-gray-300">This guide is designed to help you explore your options, understand the process, and feel confident about your next steps. We've broken everything down into simple sections to make it easy to digest.</p>
+                <h2 class="text-4xl font-bold text-golden-gradient-custom tracking-tight sm:text-5xl">Your Journey to a New Zealand University Starts Here</h2>
+                <p class="mt-6 text-lg max-w-3xl mx-auto text-neutral-300">This guide is designed to help you explore your options, understand the process, and feel confident about your next steps. We've broken everything down into simple sections to make it easy to digest.</p>
             </section>
 
-            <section id="system" class="section-card p-6 md:p-8 animated-text">
-                <h3 class="text-2xl font-bold text-golden-gradient mb-4">Basics: The University System in New Zealand</h3>
-                <p class="text-gray-400 mb-6">New Zealand's university system is known for its high quality and strong international reputation. It's built around eight public universities spread across the country, each offering a unique environment. This section gives you the big picture of how it all works.</p>
+            <section id="system" class="glass-card p-6 md:p-8 animated-text">
+                <h3 class="text-2xl font-bold text-golden-gradient-custom mb-4">Basics: The University System in New Zealand</h3>
+                <p class="text-muted-foreground mb-6">New Zealand's university system is known for its high quality and strong international reputation. It's built around eight public universities spread across the country, each offering a unique environment. This section gives you the big picture of how it all works.</p>
                 <div class="grid md:grid-cols-2 gap-8">
                     <div>
-                        <h4 class="text-xl font-semibold mb-3 text-gray-200">Key Features</h4>
-                        <ul class="space-y-3 text-gray-400">
-                            <li class="flex items-start"><span class="text-amber-400 font-bold mr-3">✔</span><div><strong>Public and Accessible:</strong> All eight universities are government-funded, ensuring high standards regulated by the NZ Qualifications Authority (NZQA).</div></li>
-                            <li class="flex items-start"><span class="text-amber-400 font-bold mr-3">✔</span><div><strong>Research-Intensive:</strong> A strong emphasis on research provides a world-class learning environment and cutting-edge discoveries.</div></li>
-                            <li class="flex items-start"><span class="text-amber-400 font-bold mr-3">✔</span><div><strong>Student-Centered Learning:</strong> The teaching style encourages critical thinking and independent study, preparing you for a successful career.</div></li>
+                        <h4 class="text-xl font-semibold mb-3 text-foreground">Key Features</h4>
+                        <ul class="space-y-3 text-muted-foreground">
+                            <li class="flex items-start"><span class="text-primary font-bold mr-3">✔</span><div><strong>Public and Accessible:</strong> All eight universities are government-funded, ensuring high standards regulated by the NZ Qualifications Authority (NZQA).</div></li>
+                            <li class="flex items-start"><span class="text-primary font-bold mr-3">✔</span><div><strong>Research-Intensive:</strong> A strong emphasis on research provides a world-class learning environment and cutting-edge discoveries.</div></li>
+                            <li class="flex items-start"><span class="text-primary font-bold mr-3">✔</span><div><strong>Student-Centered Learning:</strong> The teaching style encourages critical thinking and independent study, preparing you for a successful career.</div></li>
                         </ul>
                     </div>
                     <div>
-                        <h4 class="text-xl font-semibold mb-3 text-gray-200">Typical Academic Year</h4>
-                        <div class="space-y-2 text-sm text-gray-400 border border-gray-700 rounded-lg p-4">
-                           <div class="flex justify-between items-center p-2 bg-gray-800 rounded"><span>Feb/Mar:</span><strong class="text-amber-400">Semester 1 Begins</strong></div>
+                        <h4 class="text-xl font-semibold mb-3 text-foreground">Typical Academic Year</h4>
+                        <div class="space-y-2 text-sm text-muted-foreground border border-border rounded-lg p-4">
+                           <div class="flex justify-between items-center p-2 bg-secondary rounded"><span>Feb/Mar:</span><strong class="text-primary">Semester 1 Begins</strong></div>
                            <div class="flex justify-between items-center p-2"><span>Jun:</span><strong>Mid-Year Break</strong></div>
-                           <div class="flex justify-between items-center p-2 bg-gray-800 rounded"><span>Jul:</span><strong class="text-amber-400">Semester 2 Begins</strong></div>
+                           <div class="flex justify-between items-center p-2 bg-secondary rounded"><span>Jul:</span><strong class="text-primary">Semester 2 Begins</strong></div>
                            <div class="flex justify-between items-center p-2"><span>Nov:</span><strong>End-of-Year Break</strong></div>
-                           <div class="flex justify-between items-center p-2 bg-gray-800 rounded"><span>Dec-Feb:</span><strong class="text-orange-400">Summer Holiday</strong></div>
+                           <div class="flex justify-between items-center p-2 bg-secondary rounded"><span>Dec-Feb:</span><strong class="text-primary">Summer Holiday</strong></div>
                         </div>
                     </div>
                 </div>
             </section>
 
-            <section id="universities" class="section-card p-6 md:p-8 animated-text">
-                <h3 class="text-2xl font-bold text-golden-gradient mb-4">Options: Business Programs for <span class="text-highlight-gradient">Queen</span></h3>
-                <p class="text-gray-400 mb-6">Choosing the right program is a critical first step. Here is a curated list of top business programs in New Zealand, with key details to help you compare your options. Click on any card to learn more about the program, its specializations, and unique focus areas.</p>
+            <section id="universities" class="glass-card p-6 md:p-8 animated-text">
+                <h3 class="text-2xl font-bold text-golden-gradient-custom mb-4">Options: Business Programs for <span class="text-highlight-gradient-custom">Queen</span></h3>
+                <p class="text-muted-foreground mb-6">Choosing the right program is a critical first step. Here is a curated list of top business programs in New Zealand, with key details to help you compare your options. Click on any card to learn more about the program, its specializations, and unique focus areas.</p>
                 <div id="program-cards-container" class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 </div>
-                <div id="program-details-container" class="mt-8 p-6 bg-gray-800 rounded-lg border border-gray-700 hidden">
-                    <button id="close-details" class="float-right text-gray-400 hover:text-gray-200">
+                <div id="program-details-container" class="mt-8 p-6 bg-secondary rounded-lg border border-border hidden">
+                    <button id="close-details" class="float-right text-muted-foreground hover:text-foreground">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
                         </svg>
                     </button>
-                    <h4 id="details-title" class="text-2xl font-bold text-golden-gradient mb-2"></h4>
-                    <p id="details-location" class="text-sm text-gray-500 mb-4"></p>
-                    <p id="details-description" class="text-gray-400 mb-4"></p>
+                    <h4 id="details-title" class="text-2xl font-bold text-golden-gradient-custom mb-2"></h4>
+                    <p id="details-location" class="text-sm text-neutral-500 mb-4"></p>
+                    <p id="details-description" class="text-muted-foreground mb-4"></p>
                     <div id="details-content" class="space-y-4"></div>
                 </div>
             </section>
 
-            <section id="admissions" class="section-card p-6 md:p-8 animated-text">
-                <h3 class="text-2xl font-bold text-golden-gradient mb-4">Process: The Student Visa</h3>
-                 <p class="text-gray-400 mb-6">The visa application process can seem complicated, but it's manageable when taken one step at a time. This interactive guide breaks down the typical journey for an international student. Click on each step to learn more about what's involved.</p>
+            <section id="admissions" class="glass-card p-6 md:p-8 animated-text">
+                <h3 class="text-2xl font-bold text-golden-gradient-custom mb-4">Process: The Student Visa</h3>
+                 <p class="text-muted-foreground mb-6">The visa application process can seem complicated, but it's manageable when taken one step at a time. This interactive guide breaks down the typical journey for an international student. Click on each step to learn more about what's involved.</p>
                 <div class="flex flex-col md:flex-row gap-8">
                     <div id="admission-steps" class="flex md:flex-col justify-between md:justify-start md:space-y-2 w-full md:w-1/3">
-                        <button data-step="1" class="admission-step text-left p-3 rounded-lg border-2 border-amber-400 bg-amber-400 text-slate-900 font-semibold">1. Offer of Place</button>
-                        <button data-step="2" class="admission-step text-left p-3 rounded-lg border-2 border-gray-700 text-gray-400">2. Document Checklist</button>
-                        <button data-step="3" class="admission-step text-left p-3 rounded-lg border-2 border-gray-700 text-gray-400">3. Proof of Funds</button>
-                        <button data-step="4" class="admission-step text-left p-3 rounded-lg border-2 border-gray-700 text-gray-400">4. Application & Fees</button>
-                        <button data-step="5" class="admission-step text-left p-3 rounded-lg border-2 border-gray-700 text-gray-400">5. Visa Approval</button>
+                        <button data-step="1" class="admission-step text-left p-3 rounded-lg border-2 border-primary bg-primary text-primary-foreground font-semibold">1. Offer of Place</button>
+                        <button data-step="2" class="admission-step text-left p-3 rounded-lg border-2 border-border text-muted-foreground">2. Document Checklist</button>
+                        <button data-step="3" class="admission-step text-left p-3 rounded-lg border-2 border-border text-muted-foreground">3. Proof of Funds</button>
+                        <button data-step="4" class="admission-step text-left p-3 rounded-lg border-2 border-border text-muted-foreground">4. Application & Fees</button>
+                        <button data-step="5" class="admission-step text-left p-3 rounded-lg border-2 border-border text-muted-foreground">5. Visa Approval</button>
                     </div>
-                    <div id="admission-details" class="w-full md:w-2/3 bg-gray-800 rounded-lg p-6 border border-gray-700">
+                    <div id="admission-details" class="w-full md:w-2/3 bg-secondary rounded-lg p-6 border border-border">
                     </div>
                 </div>
             </section>
 
-            <section id="life-in-nz" class="section-card p-6 md:p-8 animated-text">
-                <h3 class="text-2xl font-bold text-golden-gradient mb-4">Life in New Zealand</h3>
-                <p class="text-gray-400 mb-6">University is more than just lectures and exams! It's about the friends you make, the activities you join, and the life you build. This section gives you a glimpse into student life and culture in New Zealand.</p>
+            <section id="life-in-nz" class="glass-card p-6 md:p-8 animated-text">
+                <h3 class="text-2xl font-bold text-golden-gradient-custom mb-4">Life in New Zealand</h3>
+                <p class="text-muted-foreground mb-6">University is more than just lectures and exams! It's about the friends you make, the activities you join, and the life you build. This section gives you a glimpse into student life and culture in New Zealand.</p>
                 <div class="grid md:grid-cols-5 gap-8 items-center">
                     <div class="md:col-span-3">
-                        <h4 class="text-xl font-semibold mb-3 text-gray-200">Common Experiences</h4>
+                        <h4 class="text-xl font-semibold mb-3 text-foreground">Common Experiences</h4>
                         <div class="space-y-4">
-                            <div class="p-4 bg-gray-800 rounded-lg border border-gray-700">
-                                <h5 class="font-bold text-gray-200">Accommodation</h5>
-                                <p class="text-sm text-gray-400">Most first-year students live in 'Halls of Residence' on or near campus, which is a great way to meet people. Later, students often move into shared apartments ('flats') with friends.</p>
+                            <div class="p-4 bg-secondary rounded-lg border border-border">
+                                <h5 class="font-bold text-foreground">Accommodation</h5>
+                                <p class="text-sm text-muted-foreground">Most first-year students live in 'Halls of Residence' on or near campus, which is a great way to meet people. Later, students often move into shared apartments ('flats') with friends.</p>
                             </div>
-                            <div class="p-4 bg-gray-800 rounded-lg border border-gray-700">
-                                <h5 class="font-bold text-gray-200">Clubs and Societies</h5>
-                                <p class="text-sm text-gray-400">Universities have dozens of clubs for every interest imaginable—from sports and drama to academic societies and cultural groups. It's the best way to get involved.</p>
+                            <div class="p-4 bg-secondary rounded-lg border border-border">
+                                <h5 class="font-bold text-foreground">Clubs and Societies</h5>
+                                <p class="text-sm text-muted-foreground">Universities have dozens of clubs for every interest imaginable—from sports and drama to academic societies and cultural groups. It's the best way to get involved.</p>
                             </div>
                         </div>
                         <div class="mt-8">
-                            <h4 class="text-xl font-semibold mb-3 text-gray-200">Life in New Zealand (Beyond Campus)</h4>
+                            <h4 class="text-xl font-semibold mb-3 text-foreground">Life in New Zealand (Beyond Campus)</h4>
                             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-6">
-                                <div class="bg-gray-800 p-5 rounded-lg border border-gray-700">
-                                    <h5 class="font-bold text-gray-200 text-lg">Climate</h5>
-                                    <p class="text-sm text-gray-400 mt-1">Generally mild temperatures. The north is subtropical, while the south can get cold with snow in winter. Expect all four seasons!</p>
+                                <div class="bg-secondary p-5 rounded-lg border border-border">
+                                    <h5 class="font-bold text-foreground text-lg">Climate</h5>
+                                    <p class="text-sm text-muted-foreground mt-1">Generally mild temperatures. The north is subtropical, while the south can get cold with snow in winter. Expect all four seasons!</p>
                                 </div>
-                                <div class="bg-gray-800 p-5 rounded-lg border border-gray-700">
-                                    <h5 class="font-bold text-gray-200 text-lg">Cost of Living</h5>
-                                    <p class="text-sm text-gray-400 mt-1">Comparable to other Western countries. Major cities like Auckland are more expensive than smaller towns.</p>
+                                <div class="bg-secondary p-5 rounded-lg border border-border">
+                                    <h5 class="font-bold text-foreground text-lg">Cost of Living</h5>
+                                    <p class="text-sm text-muted-foreground mt-1">Comparable to other Western countries. Major cities like Auckland are more expensive than smaller towns.</p>
                                 </div>
-                                <div class="bg-gray-800 p-5 rounded-lg border border-gray-700">
-                                    <h5 class="font-bold text-gray-200 text-lg">Transportation</h5>
-                                    <p class="text-sm text-gray-400 mt-1">Cities have good public transport. For exploring the country's famous landscapes, long-distance buses or cars are common.</p>
+                                <div class="bg-secondary p-5 rounded-lg border border-border">
+                                    <h5 class="font-bold text-foreground text-lg">Transportation</h5>
+                                    <p class="text-sm text-muted-foreground mt-1">Cities have good public transport. For exploring the country's famous landscapes, long-distance buses or cars are common.</p>
                                 </div>
-                                <div class="bg-gray-800 p-5 rounded-lg border border-gray-700">
-                                    <h5 class="font-bold text-gray-200 text-lg">Culture</h5>
-                                    <p class="text-sm text-gray-400 mt-1">A unique blend of Māori (the indigenous people), European, and Pacific Island influences. Kiwis are known for being relaxed and loving the outdoors.</p>
+                                <div class="bg-secondary p-5 rounded-lg border border-border">
+                                    <h5 class="font-bold text-foreground text-lg">Culture</h5>
+                                    <p class="text-sm text-muted-foreground mt-1">A unique blend of Māori (the indigenous people), European, and Pacific Island influences. Kiwis are known for being relaxed and loving the outdoors.</p>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="md:col-span-2">
-                        <h4 class="text-xl text-center font-semibold mb-3 text-gray-200">Typical Student Budget</h4>
+                        <h4 class="text-xl text-center font-semibold mb-3 text-foreground">Typical Student Budget</h4>
                         <div class="chart-container !h-64 md:!h-72">
                             <canvas id="budgetChart"></canvas>
                         </div>
@@ -277,21 +421,21 @@
                 </div>
             </section>
             
-            <section id="comparison" class="section-card p-6 md:p-8 animated-text">
-                <h3 class="text-2xl font-bold text-golden-gradient mb-4">Compare Degrees at UO Otago</h3>
-                <p class="text-gray-400 mb-6">Here is a detailed comparison of the three business-related degrees at the University of Otago. This will help you understand the differences in their focus, duration, and career paths. Click on each degree to see the details.</p>
+            <section id="comparison" class="glass-card p-6 md:p-8 animated-text">
+                <h3 class="text-2xl font-bold text-golden-gradient-custom mb-4">Compare Degrees at UO Otago</h3>
+                <p class="text-muted-foreground mb-6">Here is a detailed comparison of the three business-related degrees at the University of Otago. This will help you understand the differences in their focus, duration, and career paths. Click on each degree to see the details.</p>
                 <div class="flex flex-col md:flex-row md:justify-around space-y-4 md:space-y-0 md:space-x-4 mb-8">
-                    <button data-degree="bcom" class="degree-tab p-4 rounded-lg border-2 border-amber-400 bg-amber-400 text-slate-900 font-bold transition-transform duration-200 ease-in-out hover:scale-105">BCom</button>
-                    <button data-degree="bacom" class="degree-tab p-4 rounded-lg border-2 border-gray-700 text-gray-400 font-bold transition-transform duration-200 ease-in-out hover:scale-105">BACom</button>
-                    <button data-degree="bcomsc" class="degree-tab p-4 rounded-lg border-2 border-gray-700 text-gray-400 font-bold transition-transform duration-200 ease-in-out hover:scale-105">BComSc</button>
+                    <button data-degree="bcom" class="degree-tab p-4 rounded-lg border-2 border-primary bg-primary text-primary-foreground font-bold transition-transform duration-200 ease-in-out hover:scale-105">BCom</button>
+                    <button data-degree="bacom" class="degree-tab p-4 rounded-lg border-2 border-border text-muted-foreground font-bold transition-transform duration-200 ease-in-out hover:scale-105">BACom</button>
+                    <button data-degree="bcomsc" class="degree-tab p-4 rounded-lg border-2 border-border text-muted-foreground font-bold transition-transform duration-200 ease-in-out hover:scale-105">BComSc</button>
                 </div>
-                <div id="degree-details" class="bg-gray-800 p-6 rounded-lg border border-gray-700">
+                <div id="degree-details" class="bg-secondary p-6 rounded-lg border border-border">
                     <div data-degree-content="bcom" class="degree-content active">
-                        <h4 class="text-2xl font-bold text-golden-gradient mb-2">Bachelor of Commerce (BCom)</h4>
-                        <p class="text-sm text-gray-500 mb-4">A standard, three-year business degree.</p>
-                        <p class="text-gray-400 mb-4">This is the most focused and direct path for a business career. It provides a comprehensive foundation in commerce and allows for a deep specialization in one or two business subjects. It's the ideal choice if you want to enter the corporate world directly.</p>
-                        <h5 class="font-semibold text-lg text-gray-200 mb-2">Key Features:</h5>
-                        <ul class="list-disc list-inside text-gray-400 text-sm space-y-1">
+                        <h4 class="text-2xl font-bold text-golden-gradient-custom mb-2">Bachelor of Commerce (BCom)</h4>
+                        <p class="text-sm text-neutral-500 mb-4">A standard, three-year business degree.</p>
+                        <p class="text-muted-foreground mb-4">This is the most focused and direct path for a business career. It provides a comprehensive foundation in commerce and allows for a deep specialization in one or two business subjects. It's the ideal choice if you want to enter the corporate world directly.</p>
+                        <h5 class="font-semibold text-lg text-foreground mb-2">Key Features:</h5>
+                        <ul class="list-disc list-inside text-muted-foreground text-sm space-y-1">
                             <li><b>Duration</b>: 3 years of full-time study.</li>
                             <li><b>Focus:</b> Purely business and commerce subjects.</li>
                             <li><b>Majors:</b> Choose from a wide range of business majors like Accounting, Finance, Marketing, Management, and International Business.</li>
@@ -299,11 +443,11 @@
                         </ul>
                     </div>
                     <div data-degree-content="bacom" class="degree-content hidden">
-                        <h4 class="text-2xl font-bold text-golden-gradient mb-2">Bachelor of Arts and Commerce (BACom)</h4>
-                        <p class="text-sm text-gray-500 mb-4">A four-year combined degree blending business and humanities.</p>
-                        <p class="text-gray-400 mb-4">This program is for those who want a blend of creative and analytical skills. It combines a business major with an arts major, fostering critical thinking and a deeper understanding of human behavior and culture. It's a great choice for careers that value both business acumen and soft skills.</p>
-                        <h5 class="font-semibold text-lg text-gray-200 mb-2">Key Features:</h5>
-                        <ul class="list-disc list-inside text-gray-400 text-sm space-y-1">
+                        <h4 class="text-2xl font-bold text-golden-gradient-custom mb-2">Bachelor of Arts and Commerce (BACom)</h4>
+                        <p class="text-sm text-neutral-500 mb-4">A four-year combined degree blending business and humanities.</p>
+                        <p class="text-muted-foreground mb-4">This program is for those who want a blend of creative and analytical skills. It combines a business major with an arts major, fostering critical thinking and a deeper understanding of human behavior and culture. It's a great choice for careers that value both business acumen and soft skills.</p>
+                        <h5 class="font-semibold text-lg text-foreground mb-2">Key Features:</h5>
+                        <ul class="list-disc list-inside text-muted-foreground text-sm space-y-1">
                             <li><b>Duration:</b> 4 years of full-time study.</li>
                             <li><b>Focus:</b> Dual majors from the Arts and Business faculties.</li>
                             <li><b>Majors:</b> Combine a BCom major with an Arts major such as Communication Studies, Psychology, Languages, or Media.</li>
@@ -311,11 +455,11 @@
                         </ul>
                     </div>
                     <div data-degree-content="bcomsc" class="degree-content hidden">
-                        <h4 class="text-2xl font-bold text-golden-gradient mb-2">Bachelor of Commerce and Science (BComSc)</h4>
-                        <p class="text-sm text-gray-500 mb-4">A four-year combined degree bridging business and science.</p>
-                        <p class="text-gray-400 mb-4">This degree is designed for students who want to apply scientific principles and data-driven insights to business challenges. It offers a dual major in both a commerce and a science subject, preparing you for the demands of a technology-driven world.</p>
-                        <h5 class="font-semibold text-lg text-gray-200 mb-2">Key Features:</h5>
-                        <ul class="list-disc list-inside text-gray-400 text-sm space-y-1">
+                        <h4 class="text-2xl font-bold text-golden-gradient-custom mb-2">Bachelor of Commerce and Science (BComSc)</h4>
+                        <p class="text-sm text-neutral-500 mb-4">A four-year combined degree bridging business and science.</p>
+                        <p class="text-muted-foreground mb-4">This degree is designed for students who want to apply scientific principles and data-driven insights to business challenges. It offers a dual major in both a commerce and a science subject, preparing you for the demands of a technology-driven world.</p>
+                        <h5 class="font-semibold text-lg text-foreground mb-2">Key Features:</h5>
+                        <ul class="list-disc list-inside text-muted-foreground text-sm space-y-1">
                             <li><b>Duration:</b> 4 years of full-time study.</li>
                             <li><b>Focus:</b> Dual majors from the Business and Science faculties.</li>
                             <li>**Majors:** Combine a BCom major with a Science major like Computer Science, Data Science, or Environmental Science.</li>
@@ -327,8 +471,8 @@
         </div>
     </main>
     
-    <footer class="bg-[#1f2937] mt-16 border-t border-gray-700">
-        <div class="container mx-auto py-6 px-4 sm:px-6 lg:px-8 text-center text-gray-500">
+    <footer class="bg-secondary mt-16 border-t border-border">
+        <div class="container mx-auto py-6 px-4 sm:px-6 lg:px-8 text-center text-neutral-500">
             <p>&copy; Family University Guide. A helpful resource for Queen's big adventure.</p>
         </div>
     </footer>
@@ -404,12 +548,12 @@ document.addEventListener('DOMContentLoaded', function () {
         container.innerHTML = '';
         Object.values(data).forEach(program => {
             const card = document.createElement('div');
-            card.className = 'program-card bg-gray-800 p-5 rounded-lg border border-gray-700 cursor-pointer transition-transform duration-200 ease-in-out hover:scale-[1.02]';
+            card.className = 'program-card bg-secondary p-5 rounded-lg border border-border cursor-pointer transition-transform duration-200 ease-in-out hover:scale-[1.02] hover-card';
             card.dataset.programId = program.university.split(' ')[0].toLowerCase();
             card.innerHTML = `
-                <h4 class="font-bold text-lg text-gray-200">${program.university}</h4>
-                <p class="text-sm text-gray-400 mt-1">${program.program}</p>
-                <ul class="text-sm text-gray-500 mt-2 list-disc list-inside">
+                <h4 class="font-bold text-foreground text-lg">${program.university}</h4>
+                <p class="text-sm text-muted-foreground mt-1">${program.program}</p>
+                <ul class="text-sm text-neutral-500 mt-2 list-disc list-inside">
                     <li>Focus: ${program.description.split('.')[0]}.</li>
                 </ul>
             `;
@@ -437,8 +581,8 @@ document.addEventListener('DOMContentLoaded', function () {
                 detailsDescription.textContent = data.description;
 
                 detailsContent.innerHTML = `
-                    <h5 class="font-semibold text-lg text-gray-200">Key Specializations:</h5>
-                    <ul class="list-disc list-inside text-gray-400 text-sm grid sm:grid-cols-2 gap-y-1 mt-2">
+                    <h5 class="font-semibold text-lg text-foreground">Key Specializations:</h5>
+                    <ul class="list-disc list-inside text-muted-foreground text-sm grid sm:grid-cols-2 gap-y-1 mt-2">
                         ${data.majors.map(major => `<li>${major}</li>`).join('')}
                     </ul>
                 `;
@@ -472,7 +616,7 @@ document.addEventListener('DOMContentLoaded', function () {
                         'rgba(140, 100, 10, 0.7)',
                         'rgba(100, 100, 100, 0.7)'
                     ],
-                    borderColor: '#0b0c10',
+                    borderColor: 'var(--background)',
                     borderWidth: 3
                 }]
             },
@@ -483,7 +627,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     legend: {
                         position: 'bottom',
                         labels: {
-                            color: '#e0e7ff',
+                            color: 'var(--foreground)',
                             boxWidth: 12,
                             padding: 15
                         }
@@ -507,18 +651,18 @@ document.addEventListener('DOMContentLoaded', function () {
         function updateContent(step) {
             const content = admissionStepsContent[step];
             detailsContainer.innerHTML = `
-                <h4 class="font-bold text-lg text-gray-200 mb-2">${content.title}</h4>
-                <p class="text-gray-400">${content.content}</p>
+                <h4 class="font-bold text-lg text-foreground mb-2">${content.title}</h4>
+                <p class="text-muted-foreground">${content.content}</p>
             `;
 
             stepsContainer.querySelectorAll('.admission-step').forEach(btn => {
-                btn.classList.remove('bg-amber-400', 'text-slate-900', 'border-amber-400');
-                btn.classList.add('border-gray-700', 'text-gray-400');
+                btn.classList.remove('bg-primary', 'text-primary-foreground', 'border-primary');
+                btn.classList.add('border-border', 'text-muted-foreground');
             });
             
             const activeBtn = stepsContainer.querySelector(`[data-step="${step}"]`);
-            activeBtn.classList.add('bg-amber-400', 'text-slate-900', 'border-amber-400');
-            activeBtn.classList.remove('border-gray-700', 'text-gray-400');
+            activeBtn.classList.add('bg-primary', 'text-primary-foreground', 'border-primary');
+            activeBtn.classList.remove('border-border', 'text-muted-foreground');
         }
 
         stepsContainer.addEventListener('click', (e) => {
@@ -572,12 +716,12 @@ document.addEventListener('DOMContentLoaded', function () {
                 const degreeId = tab.dataset.degree;
 
                 tabs.forEach(btn => {
-                    btn.classList.remove('bg-amber-400', 'text-slate-900', 'border-amber-400');
-                    btn.classList.add('border-gray-700', 'text-gray-400');
+                    btn.classList.remove('bg-primary', 'text-primary-foreground', 'border-primary');
+                    btn.classList.add('border-border', 'text-muted-foreground');
                 });
                 
-                tab.classList.add('bg-amber-400', 'text-slate-900', 'border-amber-400');
-                tab.classList.remove('border-gray-700', 'text-gray-400');
+                tab.classList.add('bg-primary', 'text-primary-foreground', 'border-primary');
+                tab.classList.remove('border-border', 'text-muted-foreground');
 
                 contents.forEach(content => {
                     if (content.dataset.degreeContent === degreeId) {
@@ -635,12 +779,12 @@ document.addEventListener('DOMContentLoaded', function () {
                 parts.forEach(part => {
                     if (part === 'Gemini') {
                         const span = document.createElement('span');
-                        span.className = 'bg-golden-gradient';
+                        span.className = 'bg-golden-gradient-custom';
                         span.textContent = part;
                         fragment.appendChild(span);
                     } else if (part === 'Queen') {
                         const span = document.createElement('span');
-                        span.className = 'text-highlight-gradient';
+                        span.className = 'text-highlight-gradient-custom';
                         span.textContent = part;
                         fragment.appendChild(span);
                     } else if (part) {
