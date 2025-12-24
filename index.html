@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Brighton Study Journey — Foundation + Bachelor of Business</title>
+  <title>Brighton Journey — Foundation + Bachelor of Business</title>
 
   <!-- Tailwind + Font -->
   <script src="https://cdn.tailwindcss.com"></script>
@@ -13,16 +13,16 @@
 
   <style>
     :root{
-      --background: #0e0c17;
+      --background: #0b0a13;
       --foreground: hsl(210, 10%, 97%);
-      --surface: #1a1727;
-      --card: rgba(26, 23, 39, 0.6);
+      --surface: #141225;
+      --card: rgba(26, 23, 39, 0.55);
       --muted-foreground: hsl(215, 15%, 75%);
       --border: rgba(255, 255, 255, 0.12);
       --primary: #fcae67;
       --accent: #e879f9;
       --highlight: #facc15;
-      --radius: 16px;
+      --radius: 18px;
       --font-sans: 'Inter', system-ui, sans-serif;
     }
 
@@ -31,7 +31,12 @@
       font-family: var(--font-sans);
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
-      background: radial-gradient(ellipse at top, var(--surface), var(--background));
+      background:
+        radial-gradient(1200px 700px at 50% -100px, rgba(174,126,246,0.25) 0%, rgba(0,0,0,0) 60%),
+        radial-gradient(900px 600px at 10% 20%, rgba(247,142,189,0.20) 0%, rgba(0,0,0,0) 55%),
+        radial-gradient(900px 600px at 90% 20%, rgba(255,172,118,0.15) 0%, rgba(0,0,0,0) 55%),
+        radial-gradient(1000px 800px at 50% 110%, rgba(247,224,89,0.12) 0%, rgba(0,0,0,0) 60%),
+        radial-gradient(ellipse at top, var(--surface), var(--background));
       color: var(--foreground);
       min-height: 100vh;
     }
@@ -44,8 +49,8 @@
 
     /* Components */
     .glass-card{
-      background: linear-gradient(135deg, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0.02) 100%);
-      backdrop-filter: blur(10px);
+      background: linear-gradient(135deg, rgba(255,255,255,0.09) 0%, rgba(255,255,255,0.03) 100%);
+      backdrop-filter: blur(12px);
       border: 1px solid rgba(255,255,255,0.10);
       border-radius: var(--radius);
       position: relative;
@@ -58,10 +63,10 @@
       inset:0;
       background: linear-gradient(
         135deg,
-        rgba(174,126,246,0.05) 0%,
-        rgba(247,142,189,0.04) 40%,
-        rgba(255,172,118,0.03) 70%,
-        rgba(247,224,89,0.02) 100%
+        rgba(174,126,246,0.09) 0%,
+        rgba(247,142,189,0.07) 40%,
+        rgba(255,172,118,0.06) 70%,
+        rgba(247,224,89,0.04) 100%
       );
       pointer-events:none;
       border-radius: inherit;
@@ -78,7 +83,7 @@
       background: linear-gradient(142deg, rgba(174,126,246,1) 0%, rgba(247,142,189,1) 37%, rgba(255,172,118,1) 66%, rgba(247,224,89,1) 100%);
       transition: transform .2s ease, box-shadow .2s ease;
     }
-    .btn-gradient:hover{ transform: scale(1.04); box-shadow: 0 12px 30px rgba(174,126,246,0.35); }
+    .btn-gradient:hover{ transform: scale(1.03); box-shadow: 0 14px 40px rgba(174,126,246,0.38); }
 
     .pill{
       border: 1px solid rgba(255,255,255,0.14);
@@ -86,7 +91,7 @@
       padding: 6px 10px;
       border-radius: 999px;
       font-size: 12px;
-      color: rgba(255,255,255,0.8);
+      color: rgba(255,255,255,0.82);
       display: inline-flex;
       align-items: center;
       gap: 8px;
@@ -117,18 +122,118 @@
       border-radius: 10px;
       border: 1px solid rgba(255,255,255,0.12);
       background: rgba(255,255,255,0.06);
-      color: rgba(255,255,255,0.85);
+      color: rgba(255,255,255,0.86);
+    }
+
+    .shadow-glow{
+      box-shadow:
+        0 0 0 1px rgba(255,255,255,0.10),
+        0 20px 80px rgba(174,126,246,0.20),
+        0 10px 30px rgba(247,142,189,0.12);
+    }
+
+    .hero-orb{
+      position:absolute;
+      inset:auto;
+      width: 520px;
+      height: 520px;
+      border-radius: 999px;
+      background: radial-gradient(circle at 30% 30%, rgba(174,126,246,0.38), rgba(247,142,189,0.22), rgba(255,172,118,0.18), rgba(0,0,0,0) 70%);
+      filter: blur(18px);
+      opacity: 0.85;
+      pointer-events:none;
+      animation: floaty 8s ease-in-out infinite;
+    }
+
+    @keyframes floaty {
+      0%,100%{ transform: translateY(0) translateX(0) scale(1); }
+      50%{ transform: translateY(-14px) translateX(10px) scale(1.03); }
+    }
+
+    /* Layout helpers */
+    .app-shell{
+      display:grid;
+      grid-template-columns: 290px 1fr;
+      gap: 18px;
+    }
+    @media (max-width: 1024px){
+      .app-shell{ grid-template-columns: 1fr; }
+      .side-panel{ position: relative; top:auto; }
+    }
+
+    .side-panel{
+      position: sticky;
+      top: 18px;
+      height: calc(100vh - 36px);
+      overflow: hidden;
+    }
+
+    .side-panel-inner{
+      height: 100%;
+      display:flex;
+      flex-direction: column;
+    }
+
+    .side-scroll{
+      overflow:auto;
+    }
+
+    .divider{ height:1px; background: rgba(255,255,255,0.10); }
+
+    .dot{
+      width: 10px;
+      height: 10px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.14);
+      border: 1px solid rgba(255,255,255,0.14);
+    }
+
+    .dot.done{ background: rgba(74,222,128,0.95); border-color: rgba(74,222,128,0.65); }
+    .dot.current{ background: rgba(250,204,21,0.95); border-color: rgba(250,204,21,0.60); }
+
+    .step-card{
+      border: 1px solid rgba(255,255,255,0.10);
+      background: rgba(255,255,255,0.04);
+      border-radius: 16px;
+      padding: 12px;
+    }
+
+    .input{
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 14px;
+      padding: 12px 12px;
+      outline: none;
+      color: rgba(255,255,255,0.92);
+      width: 100%;
+    }
+
+    .input::placeholder{ color: rgba(255,255,255,0.45); }
+
+    .linkish{ color: rgba(255,255,255,0.76); }
+    .linkish:hover{ color: rgba(255,255,255,0.92); }
+
+    /* Simple fake "chat" */
+    .chat-bubble{
+      border: 1px solid rgba(255,255,255,0.10);
+      background: rgba(0,0,0,0.16);
+      border-radius: 16px;
+      padding: 12px;
+    }
+
+    .chat-bubble.me{
+      background: rgba(255,255,255,0.06);
     }
   </style>
 </head>
 
 <body class="antialiased">
-  <!-- NAV -->
-  <header class="sticky top-0 z-50 bg-[rgba(26,23,39,0.55)] backdrop-blur-md border-b border-[rgba(255,255,255,0.08)]">
-    <div class="max-w-6xl mx-auto px-4 sm:px-6">
+  <!-- TOP NAV -->
+  <header class="sticky top-0 z-50 bg-[rgba(20,18,37,0.62)] backdrop-blur-md border-b border-[rgba(255,255,255,0.08)]">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6">
       <div class="h-16 flex items-center justify-between">
         <a href="#top" class="flex items-center gap-3">
-          <div class="w-9 h-9 rounded-2xl bg-[rgba(255,255,255,0.07)] border border-[rgba(255,255,255,0.12)] flex items-center justify-center">
+          <div class="w-9 h-9 rounded-2xl bg-[rgba(255,255,255,0.07)] border border-[rgba(255,255,255,0.12)] flex items-center justify-center shadow-glow">
             <span class="text-lg">✨</span>
           </div>
           <div class="leading-tight">
@@ -140,386 +245,460 @@
         <nav class="hidden md:flex items-center gap-2">
           <a class="nav-link" href="#overview">Overview</a>
           <a class="nav-link" href="#plan">Study Plan</a>
-          <a class="nav-link" href="#accommodation">Accommodation</a>
+          <a class="nav-link" href="#progress">Progress</a>
           <a class="nav-link" href="#visa">Visa Prep</a>
           <a class="nav-link" href="#qa">Q&A Script</a>
         </nav>
 
-        <a href="#qa" class="hidden sm:inline-flex btn-gradient text-[#0e0c17] font-semibold px-4 py-2 rounded-2xl">
+        <a href="#qa" class="hidden sm:inline-flex btn-gradient text-[#0b0a13] font-semibold px-4 py-2 rounded-2xl">
           Practice Now
         </a>
       </div>
     </div>
   </header>
 
-  <main id="top" class="max-w-6xl mx-auto px-4 sm:px-6 py-10 sm:py-14 space-y-16">
+  <main id="top" class="max-w-7xl mx-auto px-4 sm:px-6 py-8 sm:py-12">
+    <div class="app-shell">
 
-    <!-- HERO -->
-    <section class="text-center fade-in">
-      <div class="inline-flex pill mb-5">
-        <span class="w-2 h-2 rounded-full bg-[var(--highlight)]"></span>
-        January intake • University of Brighton • On-campus Studio
-      </div>
+      <!-- LEFT SIDE PANEL (screenshot-style) -->
+      <aside class="side-panel glass-card shadow-glow">
+        <div class="side-panel-inner relative">
+          <div class="relative p-5">
+            <div class="flex items-center justify-between">
+              <div class="flex items-center gap-2">
+                <span class="pill"><span class="w-2 h-2 rounded-full bg-[var(--highlight)]"></span> January Intake</span>
+              </div>
+              <a class="text-xs linkish" href="#overview">Quick view</a>
+            </div>
 
-      <h1 class="text-4xl sm:text-6xl font-bold tracking-tight">
-        <span class="text-white">A New Chapter Begins in</span>
-        <span class="gradient-text">Brighton</span>
-      </h1>
+            <div class="mt-4">
+              <div class="text-sm text-[rgba(255,255,255,0.65)]">Student</div>
+              <div class="font-semibold text-white">Brighton Foundation Journey</div>
+              <div class="text-xs text-[rgba(255,255,255,0.55)] mt-1">University of Brighton • Brighton, UK</div>
+            </div>
 
-      <p class="mt-6 text-lg sm:text-xl max-w-3xl mx-auto text-[rgba(255,255,255,0.72)]">
-        This private page is a simple guide to the study plan, accommodation setup, funding, and UK visa interview readiness —
-        for a confident and smooth start.
-      </p>
-
-      <div class="mt-8 flex flex-col sm:flex-row gap-3 justify-center">
-        <a href="#visa" class="btn-gradient text-[#0e0c17] font-semibold px-6 py-3 rounded-2xl">
-          Visa Interview Prep
-        </a>
-        <a href="#plan" class="px-6 py-3 rounded-2xl border border-[rgba(255,255,255,0.14)] bg-[rgba(255,255,255,0.05)] hover:bg-[rgba(255,255,255,0.07)] transition">
-          View Study Plan
-        </a>
-      </div>
-
-      <div class="mt-8 flex flex-wrap justify-center gap-2 text-sm text-[rgba(255,255,255,0.6)]">
-        <span class="kbd">UK</span>
-        <span class="kbd">Brighton</span>
-        <span class="kbd">Foundation Year</span>
-        <span class="kbd">Bachelor of Business</span>
-        <span class="kbd">Fully Funded</span>
-      </div>
-    </section>
-
-    <!-- OVERVIEW -->
-    <section id="overview" class="glass-card p-6 sm:p-8 fade-in">
-      <div class="relative">
-        <h2 class="text-2xl sm:text-3xl font-bold mb-3">
-          <span class="gradient-text">Quick Overview</span>
-        </h2>
-        <p class="text-[rgba(255,255,255,0.72)] mb-6">
-          Core information prepared for the UK visa officer — consistent, clear, and confident.
-        </p>
-
-        <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
-          <div class="rounded-2xl border border-[rgba(255,255,255,0.10)] bg-[rgba(255,255,255,0.04)] p-5">
-            <div class="text-sm text-[rgba(255,255,255,0.6)]">University</div>
-            <div class="mt-1 font-semibold text-white">University of Brighton</div>
+            <div class="mt-5">
+              <div class="text-xs text-[rgba(255,255,255,0.6)] mb-2">Quick Actions</div>
+              <div class="grid grid-cols-2 gap-2">
+                <a href="#visa" class="rounded-2xl border border-[rgba(255,255,255,0.12)] bg-[rgba(255,255,255,0.05)] hover:bg-[rgba(255,255,255,0.08)] transition px-3 py-2 text-sm">Visa Prep</a>
+                <a href="#qa" class="rounded-2xl border border-[rgba(255,255,255,0.12)] bg-[rgba(255,255,255,0.05)] hover:bg-[rgba(255,255,255,0.08)] transition px-3 py-2 text-sm">Q&A</a>
+                <a href="#progress" class="rounded-2xl border border-[rgba(255,255,255,0.12)] bg-[rgba(255,255,255,0.05)] hover:bg-[rgba(255,255,255,0.08)] transition px-3 py-2 text-sm">Tracker</a>
+                <a href="#plan" class="rounded-2xl border border-[rgba(255,255,255,0.12)] bg-[rgba(255,255,255,0.05)] hover:bg-[rgba(255,255,255,0.08)] transition px-3 py-2 text-sm">Study Plan</a>
+              </div>
+            </div>
           </div>
 
-          <div class="rounded-2xl border border-[rgba(255,255,255,0.10)] bg-[rgba(255,255,255,0.04)] p-5">
-            <div class="text-sm text-[rgba(255,255,255,0.6)]">Programme</div>
-            <div class="mt-1 font-semibold text-white">Foundation Year → Bachelor of Business</div>
-          </div>
+          <div class="divider"></div>
 
-          <div class="rounded-2xl border border-[rgba(255,255,255,0.10)] bg-[rgba(255,255,255,0.04)] p-5">
-            <div class="text-sm text-[rgba(255,255,255,0.6)]">Start Date</div>
-            <div class="mt-1 font-semibold text-white">January (end of month)</div>
-          </div>
+          <div class="p-5 side-scroll">
+            <div class="text-xs text-[rgba(255,255,255,0.6)] mb-3">Snapshot</div>
 
-          <div class="rounded-2xl border border-[rgba(255,255,255,0.10)] bg-[rgba(255,255,255,0.04)] p-5">
-            <div class="text-sm text-[rgba(255,255,255,0.6)]">Tuition Fee</div>
-            <div class="mt-1 font-semibold text-white">$16,000</div>
-          </div>
+            <div class="step-card">
+              <div class="text-xs text-[rgba(255,255,255,0.6)]">Programme</div>
+              <div class="font-semibold text-white mt-1">International Foundation Year</div>
+              <div class="text-xs text-[rgba(255,255,255,0.55)] mt-1">Progression to Bachelor of Business</div>
+            </div>
 
-          <div class="rounded-2xl border border-[rgba(255,255,255,0.10)] bg-[rgba(255,255,255,0.04)] p-5">
-            <div class="text-sm text-[rgba(255,255,255,0.6)]">Accommodation</div>
-            <div class="mt-1 font-semibold text-white">On-campus • Studio (Option #5)</div>
-            <div class="mt-1 text-sm text-[rgba(255,255,255,0.6)]">£305/week • Private bathroom + kitchen</div>
-          </div>
+            <div class="step-card mt-3">
+              <div class="text-xs text-[rgba(255,255,255,0.6)]">Tuition</div>
+              <div class="font-semibold text-white mt-1">$16,000</div>
+              <div class="text-xs text-[rgba(255,255,255,0.55)] mt-1">Fully funded by father</div>
+            </div>
 
-          <div class="rounded-2xl border border-[rgba(255,255,255,0.10)] bg-[rgba(255,255,255,0.04)] p-5">
-            <div class="text-sm text-[rgba(255,255,255,0.6)]">Funding</div>
-            <div class="mt-1 font-semibold text-white">Father (CEO & Founder)</div>
-            <div class="mt-1 text-sm text-[rgba(255,255,255,0.6)]">Profitable digital agency • Egypt & MENA</div>
-          </div>
-        </div>
+            <div class="step-card mt-3">
+              <div class="text-xs text-[rgba(255,255,255,0.6)]">Accommodation</div>
+              <div class="font-semibold text-white mt-1">On-campus Studio</div>
+              <div class="text-xs text-[rgba(255,255,255,0.55)] mt-1">Option #5 • £305/week</div>
+            </div>
 
-        <div class="mt-6 rounded-2xl border border-[rgba(255,255,255,0.12)] bg-[rgba(255,255,255,0.05)] p-5">
-          <div class="text-sm text-[rgba(255,255,255,0.6)]">Travel / UK History</div>
-          <div class="mt-1 font-semibold text-white">
-            No previous UK visits • No visa refusals • No family in the UK
+            <div class="mt-5">
+              <div class="text-xs text-[rgba(255,255,255,0.6)] mb-2">Mini Practice</div>
+              <div class="chat-bubble">
+                <div class="text-xs text-[rgba(255,255,255,0.55)]">Visa Officer</div>
+                <div class="text-sm mt-1">Why did you choose the UK?</div>
+              </div>
+              <div class="chat-bubble me mt-2">
+                <div class="text-xs text-[rgba(255,255,255,0.55)]">Student</div>
+                <div class="text-sm mt-1">Because the UK offers internationally recognised education and practical learning. I will return to Egypt after graduation.</div>
+              </div>
+            </div>
+
+            <div class="mt-5">
+              <div class="text-xs text-[rgba(255,255,255,0.6)] mb-2">Visual-only Waitlist</div>
+              <div class="rounded-2xl border border-[rgba(255,255,255,0.10)] bg-[rgba(255,255,255,0.04)] p-4">
+                <div class="text-sm font-semibold text-white">Join the journey</div>
+                <div class="text-xs text-[rgba(255,255,255,0.55)] mt-1">(Private page — no emails stored)</div>
+                <div class="mt-3 flex gap-2">
+                  <input class="input" placeholder="Email address…" />
+                  <button class="btn-gradient text-[#0b0a13] font-semibold px-4 rounded-2xl">Join</button>
+                </div>
+              </div>
+            </div>
+
+            <div class="mt-6 text-xs text-[rgba(255,255,255,0.5)]">
+              Tip: Keep answers short → expand only if asked.
+            </div>
           </div>
         </div>
-      </div>
-    </section>
+      </aside>
 
-    <!-- STUDY PLAN -->
-    <section id="plan" class="glass-card p-6 sm:p-8 fade-in">
-      <div class="relative">
-        <h2 class="text-2xl sm:text-3xl font-bold mb-3"><span class="gradient-text">Study Plan</span></h2>
-        <p class="text-[rgba(255,255,255,0.72)] mb-8">
-          Clear and structured learning path designed for successful progression to the Bachelor of Business.
-        </p>
+      <!-- MAIN CONTENT -->
+      <div class="space-y-12">
 
-        <div class="grid lg:grid-cols-3 gap-6">
-          <div class="rounded-2xl border border-[rgba(255,255,255,0.10)] bg-[rgba(255,255,255,0.04)] p-6">
-            <div class="pill mb-4"><span class="w-2 h-2 rounded-full bg-[var(--primary)]"></span> Step 1</div>
-            <h3 class="font-bold text-white text-lg">Foundation Year</h3>
-            <p class="mt-2 text-sm text-[rgba(255,255,255,0.7)]">
-              Builds academic readiness, study skills, and adaptation to the UK education system.
-            </p>
-            <ul class="mt-4 space-y-2 text-sm text-[rgba(255,255,255,0.68)]">
-              <li>✔ Academic writing & research</li>
-              <li>✔ Critical thinking & presentations</li>
-              <li>✔ Business fundamentals & learning skills</li>
-            </ul>
-          </div>
+        <!-- HERO (bigger glow + big headline) -->
+        <section class="relative glass-card p-7 sm:p-10 fade-in overflow-hidden shadow-glow">
+          <div class="hero-orb" style="top:-140px; left: -140px;"></div>
+          <div class="hero-orb" style="bottom:-180px; right: -180px;"></div>
 
-          <div class="rounded-2xl border border-[rgba(255,255,255,0.10)] bg-[rgba(255,255,255,0.04)] p-6">
-            <div class="pill mb-4"><span class="w-2 h-2 rounded-full bg-[var(--accent)]"></span> Step 2</div>
-            <h3 class="font-bold text-white text-lg">Progression</h3>
-            <p class="mt-2 text-sm text-[rgba(255,255,255,0.7)]">
-              Successful completion leads directly to Bachelor of Business study.
-            </p>
-            <ul class="mt-4 space-y-2 text-sm text-[rgba(255,255,255,0.68)]">
-              <li>✔ Smooth transition to degree modules</li>
-              <li>✔ Confidence in academic environment</li>
-              <li>✔ Better performance outcomes</li>
-            </ul>
-          </div>
+          <div class="relative">
+            <div class="inline-flex pill mb-5">
+              <span class="w-2 h-2 rounded-full bg-[var(--highlight)]"></span>
+              January intake • University of Brighton • On-campus Studio
+            </div>
 
-          <div class="rounded-2xl border border-[rgba(255,255,255,0.10)] bg-[rgba(255,255,255,0.04)] p-6">
-            <div class="pill mb-4"><span class="w-2 h-2 rounded-full bg-[var(--highlight)]"></span> Step 3</div>
-            <h3 class="font-bold text-white text-lg">Bachelor of Business</h3>
-            <p class="mt-2 text-sm text-[rgba(255,255,255,0.7)]">
-              Builds career readiness and broad business competence for Egypt and the MENA region.
-            </p>
-            <ul class="mt-4 space-y-2 text-sm text-[rgba(255,255,255,0.68)]">
-              <li>✔ Management, marketing, entrepreneurship</li>
-              <li>✔ Real-world case studies and projects</li>
-              <li>✔ Strong professional pathway after graduation</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </section>
+            <h1 class="text-4xl sm:text-6xl font-bold tracking-tight">
+              <span class="text-white">Dimension-level clarity for</span>
+              <span class="gradient-text">Brighton Success</span>
+            </h1>
 
-    <!-- ACCOMMODATION -->
-    <section id="accommodation" class="glass-card p-6 sm:p-8 fade-in">
-      <div class="relative">
-        <h2 class="text-2xl sm:text-3xl font-bold mb-3"><span class="gradient-text">Accommodation</span></h2>
-        <p class="text-[rgba(255,255,255,0.72)] mb-6">
-          Safe, convenient, and designed for focus — especially during the foundation year.
-        </p>
-
-        <div class="grid lg:grid-cols-3 gap-6">
-          <div class="lg:col-span-2 rounded-2xl border border-[rgba(255,255,255,0.10)] bg-[rgba(255,255,255,0.04)] p-6">
-            <h3 class="font-bold text-white text-lg">On-campus Studio — Option #5</h3>
-            <p class="mt-2 text-sm text-[rgba(255,255,255,0.7)]">
-              A self-contained studio flat with private bathroom and kitchen facilities.
+            <p class="mt-6 text-lg sm:text-xl max-w-3xl text-[rgba(255,255,255,0.72)]">
+              A private, beautifully structured page for the study plan, progress tracking, and UK visa interview readiness —
+              designed to build confidence and keep everything aligned.
             </p>
 
-            <div class="mt-4 grid sm:grid-cols-3 gap-3">
-              <div class="rounded-xl border border-[rgba(255,255,255,0.10)] bg-[rgba(255,255,255,0.04)] p-4">
-                <div class="text-xs text-[rgba(255,255,255,0.6)]">Cost</div>
-                <div class="mt-1 font-semibold text-white">£305 / week</div>
+            <div class="mt-8 flex flex-col sm:flex-row gap-3">
+              <a href="#visa" class="btn-gradient text-[#0b0a13] font-semibold px-6 py-3 rounded-2xl">
+                Visa Interview Prep
+              </a>
+              <a href="#progress" class="px-6 py-3 rounded-2xl border border-[rgba(255,255,255,0.14)] bg-[rgba(255,255,255,0.05)] hover:bg-[rgba(255,255,255,0.08)] transition">
+                Progress Tracker
+              </a>
+              <a href="#qa" class="px-6 py-3 rounded-2xl border border-[rgba(255,255,255,0.14)] bg-[rgba(255,255,255,0.05)] hover:bg-[rgba(255,255,255,0.08)] transition">
+                Practice Q&A
+              </a>
+            </div>
+
+            <div class="mt-8 flex flex-wrap gap-2 text-sm text-[rgba(255,255,255,0.6)]">
+              <span class="kbd">UK</span>
+              <span class="kbd">Brighton</span>
+              <span class="kbd">Foundation Year</span>
+              <span class="kbd">Bachelor of Business</span>
+              <span class="kbd">Fully Funded</span>
+            </div>
+          </div>
+        </section>
+
+        <!-- OVERVIEW -->
+        <section id="overview" class="glass-card p-6 sm:p-8 fade-in">
+          <div class="relative">
+            <h2 class="text-2xl sm:text-3xl font-bold mb-3"><span class="gradient-text">Quick Overview</span></h2>
+            <p class="text-[rgba(255,255,255,0.72)] mb-6">Core information prepared for the UK visa officer — consistent, clear, and confident.</p>
+
+            <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+              <div class="rounded-2xl border border-[rgba(255,255,255,0.10)] bg-[rgba(255,255,255,0.04)] p-5">
+                <div class="text-sm text-[rgba(255,255,255,0.6)]">University</div>
+                <div class="mt-1 font-semibold text-white">University of Brighton</div>
+              </div>
+              <div class="rounded-2xl border border-[rgba(255,255,255,0.10)] bg-[rgba(255,255,255,0.04)] p-5">
+                <div class="text-sm text-[rgba(255,255,255,0.6)]">Programme</div>
+                <div class="mt-1 font-semibold text-white">Foundation Year → Bachelor of Business</div>
+              </div>
+              <div class="rounded-2xl border border-[rgba(255,255,255,0.10)] bg-[rgba(255,255,255,0.04)] p-5">
+                <div class="text-sm text-[rgba(255,255,255,0.6)]">Start Date</div>
+                <div class="mt-1 font-semibold text-white">January (end of month)</div>
+              </div>
+              <div class="rounded-2xl border border-[rgba(255,255,255,0.10)] bg-[rgba(255,255,255,0.04)] p-5">
+                <div class="text-sm text-[rgba(255,255,255,0.6)]">Tuition Fee</div>
+                <div class="mt-1 font-semibold text-white">$16,000</div>
+              </div>
+              <div class="rounded-2xl border border-[rgba(255,255,255,0.10)] bg-[rgba(255,255,255,0.04)] p-5">
+                <div class="text-sm text-[rgba(255,255,255,0.6)]">Accommodation</div>
+                <div class="mt-1 font-semibold text-white">On-campus • Studio (Option #5)</div>
+                <div class="mt-1 text-sm text-[rgba(255,255,255,0.6)]">£305/week • Private bathroom + kitchen</div>
+              </div>
+              <div class="rounded-2xl border border-[rgba(255,255,255,0.10)] bg-[rgba(255,255,255,0.04)] p-5">
+                <div class="text-sm text-[rgba(255,255,255,0.6)]">Funding</div>
+                <div class="mt-1 font-semibold text-white">Father (CEO & Founder)</div>
+                <div class="mt-1 text-sm text-[rgba(255,255,255,0.6)]">Profitable digital agency • Egypt & MENA</div>
+              </div>
+            </div>
+
+            <div class="mt-6 rounded-2xl border border-[rgba(255,255,255,0.12)] bg-[rgba(255,255,255,0.05)] p-5">
+              <div class="text-sm text-[rgba(255,255,255,0.6)]">Travel / UK History</div>
+              <div class="mt-1 font-semibold text-white">No previous UK visits • No visa refusals • No family in the UK</div>
+            </div>
+          </div>
+        </section>
+
+        <!-- STUDY PLAN -->
+        <section id="plan" class="glass-card p-6 sm:p-8 fade-in">
+          <div class="relative">
+            <h2 class="text-2xl sm:text-3xl font-bold mb-3"><span class="gradient-text">Study Plan</span></h2>
+            <p class="text-[rgba(255,255,255,0.72)] mb-8">Clear and structured learning path designed for successful progression to the Bachelor of Business.</p>
+
+            <div class="grid lg:grid-cols-3 gap-6">
+              <div class="rounded-2xl border border-[rgba(255,255,255,0.10)] bg-[rgba(255,255,255,0.04)] p-6">
+                <div class="pill mb-4"><span class="w-2 h-2 rounded-full bg-[var(--primary)]"></span> Step 1</div>
+                <h3 class="font-bold text-white text-lg">International Foundation Year</h3>
+                <p class="mt-2 text-sm text-[rgba(255,255,255,0.7)]">Builds academic readiness, study skills, and adapts you to UK university learning.</p>
+                <ul class="mt-4 space-y-2 text-sm text-[rgba(255,255,255,0.68)]">
+                  <li>✔ Academic writing & research</li>
+                  <li>✔ Critical thinking & presentations</li>
+                  <li>✔ Business fundamentals & learning skills</li>
+                </ul>
               </div>
 
-              <div class="rounded-xl border border-[rgba(255,255,255,0.10)] bg-[rgba(255,255,255,0.04)] p-4">
-                <div class="text-xs text-[rgba(255,255,255,0.6)]">Type</div>
-                <div class="mt-1 font-semibold text-white">Private Studio</div>
+              <div class="rounded-2xl border border-[rgba(255,255,255,0.10)] bg-[rgba(255,255,255,0.04)] p-6">
+                <div class="pill mb-4"><span class="w-2 h-2 rounded-full bg-[var(--accent)]"></span> Step 2</div>
+                <h3 class="font-bold text-white text-lg">Progression Path</h3>
+                <p class="mt-2 text-sm text-[rgba(255,255,255,0.7)]">Successful completion leads into the Bachelor of Business degree.</p>
+                <ul class="mt-4 space-y-2 text-sm text-[rgba(255,255,255,0.68)]">
+                  <li>✔ Smooth transition to degree modules</li>
+                  <li>✔ Confidence in academic environment</li>
+                  <li>✔ Better performance outcomes</li>
+                </ul>
               </div>
 
-              <div class="rounded-xl border border-[rgba(255,255,255,0.10)] bg-[rgba(255,255,255,0.04)] p-4">
-                <div class="text-xs text-[rgba(255,255,255,0.6)]">Best for</div>
-                <div class="mt-1 font-semibold text-white">Focus + Comfort</div>
+              <div class="rounded-2xl border border-[rgba(255,255,255,0.10)] bg-[rgba(255,255,255,0.04)] p-6">
+                <div class="pill mb-4"><span class="w-2 h-2 rounded-full bg-[var(--highlight)]"></span> Step 3</div>
+                <h3 class="font-bold text-white text-lg">Bachelor of Business</h3>
+                <p class="mt-2 text-sm text-[rgba(255,255,255,0.7)]">Career-ready skills for Egypt and the MENA region — management, marketing, operations.</p>
+                <ul class="mt-4 space-y-2 text-sm text-[rgba(255,255,255,0.68)]">
+                  <li>✔ Real-world case studies and projects</li>
+                  <li>✔ Broad business competence</li>
+                  <li>✔ Strong employability outcomes</li>
+                </ul>
               </div>
             </div>
           </div>
+        </section>
 
-          <div class="rounded-2xl border border-[rgba(255,255,255,0.10)] bg-[rgba(255,255,255,0.04)] p-6">
-            <h3 class="font-bold text-white text-lg">Why this option?</h3>
-            <ul class="mt-4 space-y-3 text-sm text-[rgba(255,255,255,0.7)]">
-              <li>✔ Ideal for privacy & calm routine</li>
-              <li>✔ Safe and close to academic services</li>
-              <li>✔ Helps focus during transition</li>
-              <li>✔ All costs are fully covered by father</li>
-            </ul>
+        <!-- PROGRESS TRACKER (Adjustment #4) -->
+        <section id="progress" class="glass-card p-6 sm:p-8 fade-in">
+          <div class="relative">
+            <h2 class="text-2xl sm:text-3xl font-bold mb-3"><span class="gradient-text">Progress Tracker</span></h2>
+            <p class="text-[rgba(255,255,255,0.72)] mb-6">A simple visual checklist to keep momentum and celebrate wins.</p>
+
+            <div class="grid lg:grid-cols-2 gap-6">
+              <div class="rounded-2xl border border-[rgba(255,255,255,0.10)] bg-[rgba(255,255,255,0.04)] p-6">
+                <div class="flex items-start gap-3">
+                  <span class="dot current"></span>
+                  <div>
+                    <div class="font-semibold text-white">Visa prep</div>
+                    <div class="text-sm text-[rgba(255,255,255,0.65)]">Mock interview • Q&A script • document confidence</div>
+                  </div>
+                </div>
+
+                <div class="flex items-start gap-3 mt-4">
+                  <span class="dot"></span>
+                  <div>
+                    <div class="font-semibold text-white">Flight</div>
+                    <div class="text-sm text-[rgba(255,255,255,0.65)]">Book ticket • confirm baggage • schedule</div>
+                  </div>
+                </div>
+
+                <div class="flex items-start gap-3 mt-4">
+                  <span class="dot"></span>
+                  <div>
+                    <div class="font-semibold text-white">Arrival</div>
+                    <div class="text-sm text-[rgba(255,255,255,0.65)]">Airport plan • SIM • transport to campus</div>
+                  </div>
+                </div>
+
+                <div class="flex items-start gap-3 mt-4">
+                  <span class="dot"></span>
+                  <div>
+                    <div class="font-semibold text-white">First week</div>
+                    <div class="text-sm text-[rgba(255,255,255,0.65)]">Campus registration • bank • GP • orientation</div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="rounded-2xl border border-[rgba(255,255,255,0.10)] bg-[rgba(255,255,255,0.04)] p-6">
+                <h3 class="font-bold text-white text-lg">Mini Goals</h3>
+                <ul class="mt-4 space-y-3 text-sm text-[rgba(255,255,255,0.7)]">
+                  <li>✔ 10-minute Q&A practice (short answers)</li>
+                  <li>✔ Repeat the “core narrative” 3 times</li>
+                  <li>✔ Smile + steady pace + confident tone</li>
+                  <li>✔ If asked for detail: expand calmly (long answers)</li>
+                </ul>
+
+                <div class="mt-5 rounded-2xl border border-[rgba(255,255,255,0.10)] bg-[rgba(0,0,0,0.14)] p-4">
+                  <div class="text-xs text-[rgba(255,255,255,0.6)]">Reminder</div>
+                  <div class="mt-1 font-semibold text-white">Study → Graduate → Return to Egypt</div>
+                </div>
+              </div>
+            </div>
           </div>
-        </div>
+        </section>
+
+        <!-- VISA PREP -->
+        <section id="visa" class="glass-card p-6 sm:p-8 fade-in">
+          <div class="relative">
+            <h2 class="text-2xl sm:text-3xl font-bold mb-3"><span class="gradient-text">UK Visa Interview Prep</span></h2>
+            <p class="text-[rgba(255,255,255,0.72)] mb-8">Answers must be short, consistent, and aligned with Student Visa expectations.</p>
+
+            <div class="grid lg:grid-cols-2 gap-6">
+              <div class="rounded-2xl border border-[rgba(255,255,255,0.10)] bg-[rgba(255,255,255,0.04)] p-6">
+                <h3 class="font-bold text-white text-lg">Core Narrative</h3>
+                <ul class="mt-4 space-y-3 text-sm text-[rgba(255,255,255,0.7)]">
+                  <li><b>Purpose:</b> Foundation Year → Bachelor of Business</li>
+                  <li><b>Choice:</b> UK quality + Brighton support environment</li>
+                  <li><b>Funding:</b> Fully funded by father (profitable agency in Egypt + MENA)</li>
+                  <li><b>Accommodation:</b> On-campus Studio, safe and convenient</li>
+                  <li><b>Return:</b> Plans are in Egypt (family + future career)</li>
+                </ul>
+              </div>
+
+              <div class="rounded-2xl border border-[rgba(255,255,255,0.10)] bg-[rgba(255,255,255,0.04)] p-6">
+                <h3 class="font-bold text-white text-lg">What to avoid</h3>
+                <ul class="mt-4 space-y-3 text-sm text-[rgba(255,255,255,0.7)]">
+                  <li>✘ Over-explaining</li>
+                  <li>✘ Mentioning migration intentions</li>
+                  <li>✘ Saying “I will work in the UK”</li>
+                  <li>✘ Emotional answers without structure</li>
+                  <li>✔ Always return to: <b>Study → Graduate → Return to Egypt</b></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Q&A SCRIPT -->
+        <section id="qa" class="glass-card p-6 sm:p-8 fade-in">
+          <div class="relative">
+            <h2 class="text-2xl sm:text-3xl font-bold mb-3"><span class="gradient-text">Visa Q&A Script</span></h2>
+            <p class="text-[rgba(255,255,255,0.72)] mb-8">Short answers for speed + long answers when asked for details.</p>
+
+            <div class="grid gap-6">
+              <div class="rounded-2xl border border-[rgba(255,255,255,0.10)] bg-[rgba(255,255,255,0.04)] p-6">
+                <h3 class="text-lg font-bold text-white">1) Why the UK?</h3>
+                <div class="mt-4 grid lg:grid-cols-2 gap-4">
+                  <div class="rounded-xl border border-[rgba(255,255,255,0.10)] bg-[rgba(0,0,0,0.14)] p-4">
+                    <div class="text-xs text-[rgba(255,255,255,0.6)] mb-2">Short</div>
+                    <ul class="text-sm text-[rgba(255,255,255,0.78)] space-y-2">
+                      <li>• UK education is internationally recognised.</li>
+                      <li>• Practical and career-focused.</li>
+                      <li>• Strong value for Egypt and the MENA region.</li>
+                      <li>• My father fully funds everything.</li>
+                    </ul>
+                  </div>
+                  <div class="rounded-xl border border-[rgba(255,255,255,0.10)] bg-[rgba(0,0,0,0.14)] p-4">
+                    <div class="text-xs text-[rgba(255,255,255,0.6)] mb-2">Long</div>
+                    <p class="text-sm text-[rgba(255,255,255,0.78)] leading-relaxed">
+                      I chose the UK because it offers globally respected education and strong academic quality.
+                      UK learning is practical and skills-based, which prepares students for real careers.
+                      This pathway helps me progress from a foundation year into the Bachelor of Business at the University of Brighton.
+                      After graduating, I will return to Egypt because my family and long-term plans are there.
+                      Financially, my father fully supports the tuition and living expenses through his profitable agency in Egypt and the MENA region.
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="rounded-2xl border border-[rgba(255,255,255,0.10)] bg-[rgba(255,255,255,0.04)] p-6">
+                <h3 class="text-lg font-bold text-white">2) Why University of Brighton?</h3>
+                <div class="mt-4 grid lg:grid-cols-2 gap-4">
+                  <div class="rounded-xl border border-[rgba(255,255,255,0.10)] bg-[rgba(0,0,0,0.14)] p-4">
+                    <div class="text-xs text-[rgba(255,255,255,0.6)] mb-2">Short</div>
+                    <ul class="text-sm text-[rgba(255,255,255,0.78)] space-y-2">
+                      <li>• Strong student support and practical learning.</li>
+                      <li>• Clear foundation-to-degree progression.</li>
+                      <li>• Brighton is a safe student city.</li>
+                    </ul>
+                  </div>
+                  <div class="rounded-xl border border-[rgba(255,255,255,0.10)] bg-[rgba(0,0,0,0.14)] p-4">
+                    <div class="text-xs text-[rgba(255,255,255,0.6)] mb-2">Long</div>
+                    <p class="text-sm text-[rgba(255,255,255,0.78)] leading-relaxed">
+                      I chose the University of Brighton because it provides strong academic support, especially for international students,
+                      and the learning approach is practical and focused on real outcomes.
+                      It also offers a clear pathway from the foundation year into the Bachelor of Business, which matches my plan.
+                      Brighton city is student-friendly and provides a stable environment to focus on my studies.
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="rounded-2xl border border-[rgba(255,255,255,0.10)] bg-[rgba(255,255,255,0.04)] p-6">
+                <h3 class="text-lg font-bold text-white">3) How will you fund your studies?</h3>
+                <div class="mt-4 grid lg:grid-cols-2 gap-4">
+                  <div class="rounded-xl border border-[rgba(255,255,255,0.10)] bg-[rgba(0,0,0,0.14)] p-4">
+                    <div class="text-xs text-[rgba(255,255,255,0.6)] mb-2">Short</div>
+                    <ul class="text-sm text-[rgba(255,255,255,0.78)] space-y-2">
+                      <li>• My father fully funds tuition and living expenses.</li>
+                      <li>• Tuition is $16,000.</li>
+                      <li>• Accommodation is covered.</li>
+                      <li>• Funding is documented and stable.</li>
+                    </ul>
+                  </div>
+                  <div class="rounded-xl border border-[rgba(255,255,255,0.10)] bg-[rgba(0,0,0,0.14)] p-4">
+                    <div class="text-xs text-[rgba(255,255,255,0.6)] mb-2">Long</div>
+                    <p class="text-sm text-[rgba(255,255,255,0.78)] leading-relaxed">
+                      My father will fully fund my studies. The tuition fee is $16,000 and he will also cover accommodation and living expenses.
+                      He is the CEO and founder of a profitable digital agency operating in Egypt and across the MENA region.
+                      The funding is stable and supported by documents such as bank statements and business evidence.
+                      I will not rely on public funds in the UK.
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="rounded-2xl border border-[rgba(255,255,255,0.10)] bg-[rgba(255,255,255,0.04)] p-6">
+                <h3 class="text-lg font-bold text-white">4) Where will you live in the UK?</h3>
+                <div class="mt-4 grid lg:grid-cols-2 gap-4">
+                  <div class="rounded-xl border border-[rgba(255,255,255,0.10)] bg-[rgba(0,0,0,0.14)] p-4">
+                    <div class="text-xs text-[rgba(255,255,255,0.6)] mb-2">Short</div>
+                    <ul class="text-sm text-[rgba(255,255,255,0.78)] space-y-2">
+                      <li>• On-campus accommodation.</li>
+                      <li>• Studio (Option #5) — £305/week.</li>
+                      <li>• Private bathroom and kitchen.</li>
+                    </ul>
+                  </div>
+                  <div class="rounded-xl border border-[rgba(255,255,255,0.10)] bg-[rgba(0,0,0,0.14)] p-4">
+                    <div class="text-xs text-[rgba(255,255,255,0.6)] mb-2">Long</div>
+                    <p class="text-sm text-[rgba(255,255,255,0.78)] leading-relaxed">
+                      I will stay in on-campus accommodation in a Studio (Option number 5). The cost is £305 per week.
+                      It is self-contained with a private bathroom and kitchen, and it is close to university facilities.
+                      I chose it for safety and convenience, and my father covers the cost.
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="rounded-2xl border border-[rgba(255,255,255,0.10)] bg-[rgba(255,255,255,0.04)] p-6">
+                <h3 class="text-lg font-bold text-white">5) Any UK travel history / family in UK / visa refusals?</h3>
+                <div class="mt-4 grid lg:grid-cols-2 gap-4">
+                  <div class="rounded-xl border border-[rgba(255,255,255,0.10)] bg-[rgba(0,0,0,0.14)] p-4">
+                    <div class="text-xs text-[rgba(255,255,255,0.6)] mb-2">Short</div>
+                    <ul class="text-sm text-[rgba(255,255,255,0.78)] space-y-2">
+                      <li>• No family in the UK.</li>
+                      <li>• No previous UK visits.</li>
+                      <li>• No visa refusals.</li>
+                    </ul>
+                  </div>
+                  <div class="rounded-xl border border-[rgba(255,255,255,0.10)] bg-[rgba(0,0,0,0.14)] p-4">
+                    <div class="text-xs text-[rgba(255,255,255,0.6)] mb-2">Long</div>
+                    <p class="text-sm text-[rgba(255,255,255,0.78)] leading-relaxed">
+                      I do not have family living in the UK. I have not visited the UK before, and I have no visa refusals.
+                      My purpose is strictly education at the University of Brighton, and I will comply with the student visa rules.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="mt-8 flex flex-col sm:flex-row gap-3 justify-center">
+              <a href="#top" class="px-6 py-3 rounded-2xl border border-[rgba(255,255,255,0.14)] bg-[rgba(255,255,255,0.05)] hover:bg-[rgba(255,255,255,0.08)] transition">Back to Top</a>
+              <a href="#visa" class="btn-gradient text-[#0b0a13] font-semibold px-6 py-3 rounded-2xl">Review Visa Prep</a>
+            </div>
+          </div>
+        </section>
+
+        <footer class="text-center text-sm text-[rgba(255,255,255,0.55)] pb-10">
+          <div class="mt-2">Built with love — for a bright future in Brighton ✨</div>
+        </footer>
       </div>
-    </section>
-
-    <!-- VISA -->
-    <section id="visa" class="glass-card p-6 sm:p-8 fade-in">
-      <div class="relative">
-        <h2 class="text-2xl sm:text-3xl font-bold mb-3"><span class="gradient-text">UK Visa Interview Prep</span></h2>
-        <p class="text-[rgba(255,255,255,0.72)] mb-8">
-          Your answers must be short, clear, consistent, and aligned with student visa expectations.
-        </p>
-
-        <div class="grid lg:grid-cols-2 gap-6">
-          <div class="rounded-2xl border border-[rgba(255,255,255,0.10)] bg-[rgba(255,255,255,0.04)] p-6">
-            <h3 class="font-bold text-white text-lg">Your “Core Narrative”</h3>
-            <ul class="mt-4 space-y-3 text-sm text-[rgba(255,255,255,0.7)]">
-              <li><b>Purpose:</b> Study Foundation Year → Bachelor of Business</li>
-              <li><b>Choice:</b> UK education quality + Brighton support environment</li>
-              <li><b>Funding:</b> Fully funded by father (profitable agency in Egypt + MENA)</li>
-              <li><b>Accommodation:</b> On-campus studio, safe and convenient</li>
-              <li><b>Return:</b> Plans are in Egypt (family + future career)</li>
-            </ul>
-          </div>
-
-          <div class="rounded-2xl border border-[rgba(255,255,255,0.10)] bg-[rgba(255,255,255,0.04)] p-6">
-            <h3 class="font-bold text-white text-lg">What to avoid</h3>
-            <ul class="mt-4 space-y-3 text-sm text-[rgba(255,255,255,0.7)]">
-              <li>✘ Over-explaining (keep it confident)</li>
-              <li>✘ Mentioning migration intentions</li>
-              <li>✘ Saying “I will work in the UK”</li>
-              <li>✘ Emotional responses without structure</li>
-              <li>✔ Always come back to: <b>Study → Graduate → Return to Egypt</b></li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Q&A SCRIPT -->
-    <section id="qa" class="glass-card p-6 sm:p-8 fade-in">
-      <div class="relative">
-        <h2 class="text-2xl sm:text-3xl font-bold mb-3"><span class="gradient-text">Visa Q&A Script</span></h2>
-        <p class="text-[rgba(255,255,255,0.72)] mb-8">
-          Short answers for speed + long answers when the officer asks for more detail.
-        </p>
-
-        <div class="grid gap-6">
-          <!-- Q1 -->
-          <div class="rounded-2xl border border-[rgba(255,255,255,0.10)] bg-[rgba(255,255,255,0.04)] p-6">
-            <h3 class="text-lg font-bold text-white">1) Why the UK?</h3>
-            <div class="mt-4 grid lg:grid-cols-2 gap-4">
-              <div class="rounded-xl border border-[rgba(255,255,255,0.10)] bg-[rgba(0,0,0,0.14)] p-4">
-                <div class="text-xs text-[rgba(255,255,255,0.6)] mb-2">Short</div>
-                <ul class="text-sm text-[rgba(255,255,255,0.78)] space-y-2">
-                  <li>• UK education is internationally recognised.</li>
-                  <li>• It is practical and career-focused.</li>
-                  <li>• It supports my plan to build a career in Egypt/MENA.</li>
-                  <li>• My father fully funds my studies.</li>
-                </ul>
-              </div>
-              <div class="rounded-xl border border-[rgba(255,255,255,0.10)] bg-[rgba(0,0,0,0.14)] p-4">
-                <div class="text-xs text-[rgba(255,255,255,0.6)] mb-2">Long</div>
-                <p class="text-sm text-[rgba(255,255,255,0.78)] leading-relaxed">
-                  I chose the UK because it offers globally respected education and strong academic quality.
-                  UK learning is practical and skills-based, which prepares students for real careers.
-                  This pathway helps me progress from a foundation year into the Bachelor of Business at the University of Brighton.
-                  After graduating, I will return to Egypt because my family and long-term plans are there.
-                  Financially, my father fully supports the tuition and living expenses, and he has stable documented income through his profitable agency in Egypt and the MENA region.
-                </p>
-              </div>
-            </div>
-          </div>
-
-          <!-- Q2 -->
-          <div class="rounded-2xl border border-[rgba(255,255,255,0.10)] bg-[rgba(255,255,255,0.04)] p-6">
-            <h3 class="text-lg font-bold text-white">2) Why University of Brighton?</h3>
-            <div class="mt-4 grid lg:grid-cols-2 gap-4">
-              <div class="rounded-xl border border-[rgba(255,255,255,0.10)] bg-[rgba(0,0,0,0.14)] p-4">
-                <div class="text-xs text-[rgba(255,255,255,0.6)] mb-2">Short</div>
-                <ul class="text-sm text-[rgba(255,255,255,0.78)] space-y-2">
-                  <li>• Strong student support and a practical learning approach.</li>
-                  <li>• Clear foundation-to-degree progression pathway.</li>
-                  <li>• Brighton is a safe and student-friendly city.</li>
-                </ul>
-              </div>
-              <div class="rounded-xl border border-[rgba(255,255,255,0.10)] bg-[rgba(0,0,0,0.14)] p-4">
-                <div class="text-xs text-[rgba(255,255,255,0.6)] mb-2">Long</div>
-                <p class="text-sm text-[rgba(255,255,255,0.78)] leading-relaxed">
-                  I chose the University of Brighton because it provides strong academic support, especially for international students,
-                  and the learning approach is practical and focused on real outcomes.
-                  It also offers a clear pathway from the foundation year into the Bachelor of Business, which matches my plan.
-                  Brighton city itself is known to be student-friendly and provides a stable environment to focus on my studies.
-                </p>
-              </div>
-            </div>
-          </div>
-
-          <!-- Q10 -->
-          <div class="rounded-2xl border border-[rgba(255,255,255,0.10)] bg-[rgba(255,255,255,0.04)] p-6">
-            <h3 class="text-lg font-bold text-white">3) How will you fund your studies?</h3>
-            <div class="mt-4 grid lg:grid-cols-2 gap-4">
-              <div class="rounded-xl border border-[rgba(255,255,255,0.10)] bg-[rgba(0,0,0,0.14)] p-4">
-                <div class="text-xs text-[rgba(255,255,255,0.6)] mb-2">Short</div>
-                <ul class="text-sm text-[rgba(255,255,255,0.78)] space-y-2">
-                  <li>• My father fully funds tuition and living expenses.</li>
-                  <li>• Tuition is $16,000 and accommodation is covered.</li>
-                  <li>• Funding is stable and supported by documents.</li>
-                </ul>
-              </div>
-              <div class="rounded-xl border border-[rgba(255,255,255,0.10)] bg-[rgba(0,0,0,0.14)] p-4">
-                <div class="text-xs text-[rgba(255,255,255,0.6)] mb-2">Long</div>
-                <p class="text-sm text-[rgba(255,255,255,0.78)] leading-relaxed">
-                  My father will fully fund my studies. The tuition fee is $16,000 and he will also cover my accommodation and living expenses.
-                  He is the CEO and founder of a profitable digital agency operating in Egypt and across the MENA region,
-                  so the funding is stable and documented. I will not rely on public funds in the UK.
-                </p>
-              </div>
-            </div>
-          </div>
-
-          <!-- Q8 -->
-          <div class="rounded-2xl border border-[rgba(255,255,255,0.10)] bg-[rgba(255,255,255,0.04)] p-6">
-            <h3 class="text-lg font-bold text-white">4) Where will you live in the UK?</h3>
-            <div class="mt-4 grid lg:grid-cols-2 gap-4">
-              <div class="rounded-xl border border-[rgba(255,255,255,0.10)] bg-[rgba(0,0,0,0.14)] p-4">
-                <div class="text-xs text-[rgba(255,255,255,0.6)] mb-2">Short</div>
-                <ul class="text-sm text-[rgba(255,255,255,0.78)] space-y-2">
-                  <li>• On-campus accommodation.</li>
-                  <li>• Studio (Option #5) — £305/week.</li>
-                  <li>• Safe, convenient, helps focus on study.</li>
-                </ul>
-              </div>
-              <div class="rounded-xl border border-[rgba(255,255,255,0.10)] bg-[rgba(0,0,0,0.14)] p-4">
-                <div class="text-xs text-[rgba(255,255,255,0.6)] mb-2">Long</div>
-                <p class="text-sm text-[rgba(255,255,255,0.78)] leading-relaxed">
-                  I will stay in on-campus accommodation in a Studio (Option number 5). The cost is £305 per week.
-                  It is self-contained with a private bathroom and kitchen, and it is close to university facilities.
-                  I chose it for safety and convenience, and my father covers the accommodation cost.
-                </p>
-              </div>
-            </div>
-          </div>
-
-          <!-- Q7 -->
-          <div class="rounded-2xl border border-[rgba(255,255,255,0.10)] bg-[rgba(255,255,255,0.04)] p-6">
-            <h3 class="text-lg font-bold text-white">5) Any UK travel history / family in UK / visa refusals?</h3>
-            <div class="mt-4 grid lg:grid-cols-2 gap-4">
-              <div class="rounded-xl border border-[rgba(255,255,255,0.10)] bg-[rgba(0,0,0,0.14)] p-4">
-                <div class="text-xs text-[rgba(255,255,255,0.6)] mb-2">Short</div>
-                <ul class="text-sm text-[rgba(255,255,255,0.78)] space-y-2">
-                  <li>• No family in the UK.</li>
-                  <li>• No previous UK visits.</li>
-                  <li>• No visa refusals.</li>
-                </ul>
-              </div>
-              <div class="rounded-xl border border-[rgba(255,255,255,0.10)] bg-[rgba(0,0,0,0.14)] p-4">
-                <div class="text-xs text-[rgba(255,255,255,0.6)] mb-2">Long</div>
-                <p class="text-sm text-[rgba(255,255,255,0.78)] leading-relaxed">
-                  I do not have family living in the UK. I have not visited the UK before, and I have no visa refusals.
-                  My purpose of travel is strictly education at the University of Brighton, and I will comply with the student visa rules.
-                </p>
-              </div>
-            </div>
-          </div>
-
-        </div>
-
-        <div class="mt-8 flex flex-col sm:flex-row gap-3 justify-center">
-          <a href="#top" class="px-6 py-3 rounded-2xl border border-[rgba(255,255,255,0.14)] bg-[rgba(255,255,255,0.05)] hover:bg-[rgba(255,255,255,0.07)] transition">
-            Back to Top
-          </a>
-          <a href="#visa" class="btn-gradient text-[#0e0c17] font-semibold px-6 py-3 rounded-2xl">
-            Review Visa Prep
-          </a>
-        </div>
-      </div>
-    </section>
-
-    <!-- FOOTER -->
-    <footer class="text-center text-sm text-[rgba(255,255,255,0.55)] pb-10">
-      <div class="mt-8">
-        Built with love — for a bright future in Brighton ✨
-      </div>
-    </footer>
-
+    </div>
   </main>
 
   <script>
